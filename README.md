@@ -1,37 +1,35 @@
 # AI Content Platform Showcase
 
-> **Sanitized engineering portfolio.** This public repository is a genericized representation of software-engineering patterns implemented in a private production codebase. Proprietary business logic, customer data, credentials, production resource names, internal domains, and vendor-specific secrets are intentionally excluded.
+> **Sanitized engineering portfolio.** This public repository is a genericized representation of engineering patterns implemented in a private production codebase. Proprietary business logic, customer data, credentials, production resource names, internal domains, and vendor-specific secrets are intentionally excluded.
 
-A compact reference implementation for an **AI-native content platform** where LLMs produce structured intermediate representations (IR) and deterministic application code renders, versions, audits, and controls the resulting artifacts.
+A compact public reference for an **AI-native content platform** built around typed intermediate representations (IR), task-aware model routing, deterministic application boundaries, governance, and testable APIs.
 
-## What this demonstrates
+## Implemented in this public sample
 
-- FastAPI service boundaries and typed contracts with Pydantic
-- LLM routing by task complexity instead of hardcoding one model everywhere
-- Deterministic rendering from validated JSON/IR
-- Immutable version checksums and audit events
-- FinOps guardrails with per-run budget enforcement
-- Human-in-the-loop approval as a first-class workflow state
-- Testable architecture: generation logic is separated from rendering and governance
-- Containerized local execution and CI
+- FastAPI service boundary
+- Pydantic contracts for structured content IR
+- Task-aware model routing abstraction
+- Strict input validation
+- Automated API tests
+- GitHub Actions CI
+- Sanitized architecture documentation
 
-## Architecture
+## Production architecture represented
+
+The private implementation extends the same design with deterministic artifact rendering, immutable versions/checksums, audit trails, cost controls, human approval gates, observability, knowledge retrieval, and multimodal integrations. Those proprietary implementations are intentionally not copied into this public repository.
 
 ```mermaid
 flowchart LR
     U[Client / API] --> A[FastAPI]
-    A --> G[Generation Service]
-    G --> R[Model Router]
+    A --> I[Validated Content IR]
+    A --> R[Model Router]
     R --> L[LLM Provider]
-    L --> I[Validated Content IR]
-    I --> D[Deterministic Renderer]
-    D --> V[Version + Checksum]
-    V --> H[Human Approval Gate]
-    G --> F[FinOps Guardrail]
-    G --> T[Audit / Trace]
+    I --> D[Deterministic Application Layer]
+    D --> V[Version / Governance]
+    V --> H[Human Approval]
 ```
 
-The key design decision is: **the model proposes content; deterministic code owns structure, validation, cost controls, versioning, and rendering**.
+The architectural principle is: **models propose structured content; deterministic software owns validation, lifecycle, governance, and delivery**.
 
 ## Repository layout
 
@@ -40,12 +38,9 @@ app/
   main.py
   schemas.py
   services/
-    audit.py
-    finops.py
     model_router.py
-    renderer.py
 tests/
-  test_renderer.py
+  test_api.py
 docs/
   architecture.md
 .github/workflows/
@@ -59,6 +54,7 @@ python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
+pytest -q
 ```
 
 Open `http://localhost:8000/docs`.
@@ -69,4 +65,4 @@ This showcase contains **no real credentials, customer records, cloud subscripti
 
 ## Engineering themes
 
-**AI systems engineering · FastAPI · typed contracts · deterministic rendering · governance · observability · FinOps · human approval · CI/CD**
+**AI systems engineering · FastAPI · typed contracts · model routing · governance · testability · CI/CD**
